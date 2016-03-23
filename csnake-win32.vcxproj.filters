@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Source/common.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/display_windows_console.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/food.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/game.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/grid.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/loop.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/main.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/queue.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/snake.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source/stats.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Headers/common.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/display.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/food.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/game.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/grid.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/loop.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/queue.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/snake.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers/stats.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{a09b5e54-f507-4b7c-8d0d-905f1fe56aa9}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{6ec09936-98a5-4bea-9904-30861209328d}</UniqueIdentifier>
+      <Extensions>
+      </Extensions>
+    </Filter>
+  </ItemGroup>
+</Project>

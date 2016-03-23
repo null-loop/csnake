@@ -30,3 +30,15 @@
 
 # Debug files
 *.dSYM/
+*.suo
+*.pdb
+*.idb
+*.ilk
+
+# Logging files
+*.log
+*.tlog
+
+# SQL 'things'
+*.sdf
+*.opendb
