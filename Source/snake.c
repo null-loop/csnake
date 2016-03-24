@@ -1,4 +1,5 @@
 
+#include "../Headers/common.h"
 #include "../Headers/snake.h"
 #include "../Headers/grid.h"
 #include <stdlib.h>
@@ -37,6 +38,7 @@ int __grow_snake(Snake* snake, Grid* grid)
 		snake->bits[0].x = head_pos->x;
 		snake->bits[0].y = head_pos->y;
 		grid_set(grid, head_pos, SnakeHead);
+		free(head_pos);
 	}
 	else
 	{
@@ -89,19 +91,61 @@ static void __update_derived_traits(SnakeTraits* traits)
 	traits->max_weight = traits->weight_per_growth * traits->max_length;
 }
 
+static int __mutate_trait(unsigned int trait)
+{
+	if (get_random_int(2) == 0) return trait + 1;
+	else if (trait > 1) return trait - 1;
+	return trait;
+}
+
+static void __mutate_a_trait(SnakeTraits* traits)
+{
+	int trait = get_random_int(7);
+	switch (trait)
+	{
+	case 0:
+		traits->max_length = __mutate_trait(traits->max_length);
+		break;
+	case 1:
+		traits->look_ahead_distance = __mutate_trait(traits->look_ahead_distance);
+		break;
+	case 2:
+		traits->momentum_score = __mutate_trait(traits->momentum_score);
+		break;
+	case 3:
+		traits->default_score = __mutate_trait(traits->default_score);
+		break;
+	case 4:
+		traits->future_collision_penalty = __mutate_trait(traits->future_collision_penalty);
+		break;
+	case 5:
+		traits->food_score = __mutate_trait(traits->food_score);
+		break;
+	case 6:
+		traits->weight_per_growth = __mutate_trait(traits->weight_per_growth);
+		break;
+	}
+}
+
 static SnakeTraits* __mutate_traits(SnakeTraits* traits)
 {
 	SnakeTraits* nTraits = (SnakeTraits*)malloc(sizeof(SnakeTraits));
 
 	memcpy(nTraits, traits, sizeof(SnakeTraits));
 
-	// TODO:perform mutation on nTraits
+	int mutateChance = get_random_int(100) + 1;
 
-	// decide how many traits to mutate
-	// loop -> select trait, roll 50/50 +1/-1, no lower than 1.
+	if (mutateChance > 80 && mutateChance <= 95)
+	{
+		__mutate_a_trait(nTraits);
+	}
+	else if (mutateChance > 95)
+	{
+		__mutate_a_trait(nTraits);
+		__mutate_a_trait(nTraits);
+	}
 
-
-	__update_derived_traits(traits);
+	__update_derived_traits(nTraits);
 
 	return nTraits;
 }
@@ -111,10 +155,11 @@ Snake* snake_birth_from_traits(Grid* grid, SnakeTraits* parentTraits, GameStats*
 	Snake* snake = (Snake*)malloc(sizeof(Snake));
 
 	snake->alive = true;
-	snake->bits = (GridPos*)malloc(sizeof(GridPos)*parentTraits->max_length);
+	snake->traits = __mutate_traits(parentTraits);
+	snake->bits = (GridPos*)malloc(sizeof(GridPos)*snake->traits->max_length);
 	snake->length = 0;
 	snake->stats = stats_snake_new();
-	snake->traits = __mutate_traits(parentTraits);
+	
 	snake->weight = parentTraits->child_birth_weight;
 	snake->time_to_birth = snake->traits->time_to_birth;
 
