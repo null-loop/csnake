@@ -68,7 +68,7 @@ void loop_each_with_state(Loop* loop, void* state, void(*e)(void*,void*))
 		curr = curr->__next;
 		e(curr->node,state);
 
-		if (curr == start) curr = NULL;
+		if (curr == start) break;
 	}
 }
 

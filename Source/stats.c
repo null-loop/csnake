@@ -2,8 +2,6 @@
 #include "../Headers/snake.h"
 #include <stdlib.h>
 
-
-
 GameStats* stats_game_new()
 {
 	GameStats* stats = (GameStats*)malloc(sizeof(GameStats));
@@ -20,7 +18,7 @@ GameStats* stats_game_new()
 GlobalStats* stats_global_new()
 {
 	GlobalStats* stats = (GlobalStats*)malloc(sizeof(GlobalStats));
-	
+
 	stats->food_eaten = 0;
 	stats->games_played = 0;
 	stats->moves_made = 0;
@@ -67,4 +65,3 @@ void stats_game_over(GameStats* gameStats, GlobalStats* globalStats)
 	globalStats->score += gameStats->score;
 	globalStats->games_played ++;
 }
-

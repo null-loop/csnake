@@ -70,9 +70,9 @@ LoopStepResult __game_turn(void* node)
 		}
 		snake_free(snake);
 	}
-	
+
 	display_flush_pixels(DISPLAY);
-	
+
 	__display_count++;
 
 	return result;
@@ -95,8 +95,7 @@ int main(void)
 	__global = stats_global_new();
 
 	SnakeTraits* defaultTraits = snake_traits_default();
-	
-	// TODO:display defaultTraits
+
 	display_default_traits(defaultTraits);
 
 	while (true)
@@ -107,10 +106,10 @@ int main(void)
 
 		// setup food
 		food_fill(__game);
-		
+
 		// setup starting snakes
 		__birth_snakes(startSnakes);
-		
+
 		display_flush_pixels(DISPLAY);
 
 		// run the main loop
@@ -132,4 +131,3 @@ int main(void)
 
 
 }
-

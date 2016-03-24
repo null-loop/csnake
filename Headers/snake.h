@@ -12,7 +12,6 @@ struct Snake {
 	SnakeStats* stats;
 	SnakeTraits* traits;
 
-	//TODO:Replace with fixed size array of GridPos
 	GridPos* bits;
 	int length;
 

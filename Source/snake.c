@@ -9,7 +9,7 @@ static SnakeTraits* __globalDefaultTraits;
 
 void __shrink_snake(Snake* snake, Grid* grid)
 {
-	
+
 	if (snake->length > 1) {
 		GridPos* tail = snake_get_tail(snake);
 		grid_set(grid, snake->last_tail_pos, Space);
@@ -32,8 +32,8 @@ int __grow_snake(Snake* snake, Grid* grid)
 		snake->last_head_pos->x = -1;
 		snake->last_head_pos->y = -1;
 		snake->length = 1;
-		
-		
+
+
 		snake->bits[0].x = head_pos->x;
 		snake->bits[0].y = head_pos->y;
 		grid_set(grid, head_pos, SnakeHead);
@@ -86,7 +86,7 @@ static SnakeTraits* __mutate_traits(SnakeTraits* traits)
 
 	memcpy(nTraits, traits, sizeof(SnakeTraits));
 
-	// perform mutation on nTraits
+	// TODO:perform mutation on nTraits
 
 	return nTraits;
 }
@@ -210,7 +210,7 @@ MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short 
 	result.child = NULL;
 	GridPos* head = snake_get_head(snake);
 	GridPos* tail = snake_get_tail(snake);
-	
+
 	snake->last_head_pos->x = head->x;
 	snake->last_head_pos->y = head->y;
 
@@ -243,16 +243,16 @@ MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short 
 		{
 			snake->weight = snake->traits->max_weight;
 		}
-		
+
 		if (snake->time_to_birth > 0)
 		{
 			snake->time_to_birth--;
 		}
-		else 
+		else
 		{
 			if (snake->weight > snake->traits->birth_weight_threshold)
 			{
-				// give birth!			
+				// give birth!
 				snake->weight -= snake->traits->birth_weight_cost;
 				snake->time_to_birth = snake->traits->time_to_birth;
 
@@ -272,7 +272,6 @@ MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short 
 		}
 	}
 
-	// TODO:check if we need to add / remove a bit
 	float weightLength = (float)snake->weight / snake->traits->weight_per_growth;
 	float diff = weightLength - snake->length;
 
@@ -285,7 +284,6 @@ MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short 
 	{
 		__shrink_snake(snake, grid);
 	}
-	
 
 	// check if we've died of starvation
 	if (snake->weight == 0)
