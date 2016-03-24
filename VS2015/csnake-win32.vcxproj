@@ -79,27 +79,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source/common.c" />
-    <ClCompile Include="Source/display_windows_console.c" />
-    <ClCompile Include="Source/food.c" />
-    <ClCompile Include="Source/game.c" />
-    <ClCompile Include="Source/grid.c" />
-    <ClCompile Include="Source/loop.c" />
-    <ClCompile Include="Source/main.c" />
-    <ClCompile Include="Source/queue.c" />
-    <ClCompile Include="Source/snake.c" />
-    <ClCompile Include="Source/stats.c" />
+    <ClCompile Include="../Source/common.c" />
+    <ClCompile Include="../Source/display_windows_console.c" />
+    <ClCompile Include="../Source/food.c" />
+    <ClCompile Include="../Source/game.c" />
+    <ClCompile Include="../Source/grid.c" />
+    <ClCompile Include="../Source/loop.c" />
+    <ClCompile Include="../Source/main.c" />
+    <ClCompile Include="../Source/queue.c" />
+    <ClCompile Include="../Source/snake.c" />
+    <ClCompile Include="../Source/stats.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers/common.h" />
-    <ClInclude Include="Headers/display.h" />
-    <ClInclude Include="Headers/food.h" />
-    <ClInclude Include="Headers/game.h" />
-    <ClInclude Include="Headers/grid.h" />
-    <ClInclude Include="Headers/loop.h" />
-    <ClInclude Include="Headers/queue.h" />
-    <ClInclude Include="Headers/snake.h" />
-    <ClInclude Include="Headers/stats.h" />
+    <ClInclude Include="../Headers/common.h" />
+    <ClInclude Include="../Headers/display.h" />
+    <ClInclude Include="../Headers/food.h" />
+    <ClInclude Include="../Headers/game.h" />
+    <ClInclude Include="../Headers/grid.h" />
+    <ClInclude Include="../Headers/loop.h" />
+    <ClInclude Include="../Headers/queue.h" />
+    <ClInclude Include="../Headers/snake.h" />
+    <ClInclude Include="../Headers/stats.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
