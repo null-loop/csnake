@@ -80,6 +80,15 @@ Snake* snake_birth_from_parent(Grid* grid, Snake* parent, GameStats* stats)
 	return snake;
 }
 
+static void __update_derived_traits(SnakeTraits* traits)
+{
+	traits->child_birth_weight = traits->weight_per_growth;
+	traits->birth_weight_cost = traits->child_birth_weight * 5;
+	traits->birth_weight_threshold = traits->birth_weight_cost * 2;
+	traits->time_to_birth = traits->child_birth_weight * 5;
+	traits->max_weight = traits->weight_per_growth * traits->max_length;
+}
+
 static SnakeTraits* __mutate_traits(SnakeTraits* traits)
 {
 	SnakeTraits* nTraits = (SnakeTraits*)malloc(sizeof(SnakeTraits));
@@ -87,6 +96,12 @@ static SnakeTraits* __mutate_traits(SnakeTraits* traits)
 	memcpy(nTraits, traits, sizeof(SnakeTraits));
 
 	// TODO:perform mutation on nTraits
+
+	// decide how many traits to mutate
+	// loop -> select trait, roll 50/50 +1/-1, no lower than 1.
+
+
+	__update_derived_traits(traits);
 
 	return nTraits;
 }
@@ -112,12 +127,6 @@ Snake* snake_birth_from_traits(Grid* grid, SnakeTraits* parentTraits, GameStats*
 	return snake;
 }
 
-static void __update_derived_traits(SnakeTraits* traits)
-{
-	traits->child_birth_weight = traits->weight_per_growth;
-	traits->max_weight = traits->weight_per_growth * traits->max_length;
-}
-
 SnakeTraits* snake_traits_default()
 {
 	if (__globalDefaultTraits != NULL)
@@ -128,7 +137,7 @@ SnakeTraits* snake_traits_default()
 	__globalDefaultTraits = (SnakeTraits*)malloc(sizeof(SnakeTraits));
 	__globalDefaultTraits->start_length = 1;
 	__globalDefaultTraits->max_length = 15;
-	__globalDefaultTraits->look_ahead_distance = 32;
+	__globalDefaultTraits->look_ahead_distance = 8;
 	__globalDefaultTraits->momentum_score = 30;
 	__globalDefaultTraits->default_score = 20;
 	__globalDefaultTraits->future_collision_penalty = 5;
@@ -136,9 +145,6 @@ SnakeTraits* snake_traits_default()
 	__globalDefaultTraits->food_weight = 40;
 	__globalDefaultTraits->weight_per_growth = 40;
 	__globalDefaultTraits->move_weight_cost = 1;
-	__globalDefaultTraits->birth_weight_cost = 200;
-	__globalDefaultTraits->birth_weight_threshold = 400;
-	__globalDefaultTraits->time_to_birth = 100;
 
 	__update_derived_traits(__globalDefaultTraits);
 
