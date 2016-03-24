@@ -12,4 +12,4 @@ What's better than Snake? Self playing Snake with evolution.
 ### Screenshots
 
 #### Win32 Console
-![Win32 Console Screenshot](images/Win32_Console_Large.png)
+![Win32 Console Screenshot](https://github.com/null-loop/csnake/raw/master/Images/Win32_Console_Large.PNG)
