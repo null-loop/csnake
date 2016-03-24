@@ -82,7 +82,7 @@ Snake* snake_birth_from_parent(Grid* grid, Snake* parent, GameStats* stats)
 
 static void __update_derived_traits(SnakeTraits* traits)
 {
-	traits->child_birth_weight = traits->weight_per_growth;
+	traits->child_birth_weight = traits->weight_per_growth * traits->start_length;
 	traits->birth_weight_cost = traits->child_birth_weight * 5;
 	traits->birth_weight_threshold = traits->birth_weight_cost * 2;
 	traits->time_to_birth = traits->child_birth_weight * 5;
