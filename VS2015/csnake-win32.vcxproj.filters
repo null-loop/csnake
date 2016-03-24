@@ -1,63 +1,63 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source/common.c">
+    <ClCompile Include="../Source/common.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/display_windows_console.c">
+    <ClCompile Include="../Source/food.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/food.c">
+    <ClCompile Include="../Source/game.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/game.c">
+    <ClCompile Include="../Source/display_windows_console.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/grid.c">
+    <ClCompile Include="../Source/grid.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/loop.c">
+    <ClCompile Include="../Source/loop.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/main.c">
+    <ClCompile Include="../Source/main.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/queue.c">
+    <ClCompile Include="../Source/queue.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/snake.c">
+    <ClCompile Include="../Source/snake.c">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source/stats.c">
+    <ClCompile Include="../Source/stats.c">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers/common.h">
+    <ClInclude Include="../Headers/common.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/display.h">
+    <ClInclude Include="../Headers/display.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/food.h">
+    <ClInclude Include="../Headers/food.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/game.h">
+    <ClInclude Include="../Headers/game.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/grid.h">
+    <ClInclude Include="../Headers/grid.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/loop.h">
+    <ClInclude Include="../Headers/loop.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/queue.h">
+    <ClInclude Include="../Headers/queue.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/snake.h">
+    <ClInclude Include="../Headers/snake.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers/stats.h">
+    <ClInclude Include="../Headers/stats.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -69,8 +69,7 @@
     </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{6ec09936-98a5-4bea-9904-30861209328d}</UniqueIdentifier>
-      <Extensions>
-      </Extensions>
+      <Extensions>*.c</Extensions>
     </Filter>
   </ItemGroup>
 </Project>
