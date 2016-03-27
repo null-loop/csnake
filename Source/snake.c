@@ -51,7 +51,7 @@ int __grow_snake(Snake* snake, Grid* grid)
 		new_pos->x = snake->last_tail_pos->x;
 		new_pos->y = snake->last_tail_pos->y;
 
-		int e = grid_get(grid, new_pos);
+		int e = grid_get(grid, (*new_pos));
 
 		if (e == Food)
 		{
@@ -84,10 +84,10 @@ Snake* snake_birth_from_parent(Grid* grid, Snake* parent, GameStats* stats)
 
 static void __update_derived_traits(SnakeTraits* traits)
 {
+	traits->food_weight = traits->weight_per_growth;
 	traits->child_birth_weight = traits->weight_per_growth * traits->start_length;
 	traits->birth_weight_cost = traits->child_birth_weight * 5;
 	traits->birth_weight_threshold = traits->birth_weight_cost * 2;
-	traits->time_to_birth = traits->child_birth_weight * 5;
 	traits->max_weight = traits->weight_per_growth * traits->max_length;
 }
 
@@ -100,7 +100,7 @@ static int __mutate_trait(unsigned int trait)
 
 static void __mutate_a_trait(SnakeTraits* traits)
 {
-	int trait = get_random_int(7);
+	int trait = get_random_int(8);
 	switch (trait)
 	{
 	case 0:
@@ -124,10 +124,13 @@ static void __mutate_a_trait(SnakeTraits* traits)
 	case 6:
 		traits->weight_per_growth = __mutate_trait(traits->weight_per_growth);
 		break;
+	case 7:
+		traits->time_to_birth = __mutate_trait(traits->time_to_birth);
+		break;
 	}
 }
 
-static SnakeTraits* __mutate_traits(SnakeTraits* traits)
+static SnakeTraits* __mutate_traits(SnakeTraits* traits, int gridSize)
 {
 	SnakeTraits* nTraits = (SnakeTraits*)malloc(sizeof(SnakeTraits));
 
@@ -147,6 +150,11 @@ static SnakeTraits* __mutate_traits(SnakeTraits* traits)
 
 	__update_derived_traits(nTraits);
 
+	if (nTraits->look_ahead_distance > gridSize)
+	{
+		nTraits->look_ahead_distance = gridSize;
+	}
+
 	return nTraits;
 }
 
@@ -155,7 +163,7 @@ Snake* snake_birth_from_traits(Grid* grid, SnakeTraits* parentTraits, GameStats*
 	Snake* snake = (Snake*)malloc(sizeof(Snake));
 
 	snake->alive = true;
-	snake->traits = __mutate_traits(parentTraits);
+	snake->traits = __mutate_traits(parentTraits, grid->size);
 	snake->bits = (GridPos*)malloc(sizeof(GridPos)*snake->traits->max_length);
 	snake->length = 0;
 	snake->stats = stats_snake_new();
@@ -190,6 +198,7 @@ SnakeTraits* snake_traits_default()
 	__globalDefaultTraits->food_weight = 40;
 	__globalDefaultTraits->weight_per_growth = 40;
 	__globalDefaultTraits->move_weight_cost = 1;
+	__globalDefaultTraits->time_to_birth = 500;
 
 	__update_derived_traits(__globalDefaultTraits);
 
@@ -251,7 +260,7 @@ GridPos* snake_get_tail(Snake* snake)
 	return &(snake->bits[snake->length - 1]);
 }
 
-MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short dX, short dY)
+MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, int dX, int dY)
 {
 	MoveResult result;
 	result.ate = false;
@@ -273,7 +282,7 @@ MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short 
 
 	// get the new head pos
 	// remember if there's food there
-	GridContents headContent = grid_get(grid, head);
+	GridContents headContent = grid_get(grid, (*head));
 
 	// set new head pos in grid
 	grid_set(grid, head, SnakeHead);

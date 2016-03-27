@@ -43,7 +43,7 @@ static char* BIRTH_WEIGHT_THRESHOLD_LABEL = "Birth Weight Threshold : %16d";
 
 static const int STATS_COLUMN_WIDTH = 35;
 static const int STATS_ROW_OFFSET = 1;
-static const int STATS_COLUMN_OFFSET = 120;
+static int STATS_COLUMN_OFFSET = 120;
 
 static int GRID_ROW_OFFSET = 3;
 static const int GRID_COLUMN_OFFSET = 1;
@@ -58,6 +58,8 @@ static COORD __home_coords = { 0,0 };
 
 static Queue* __pixel_updates;
 static unsigned short __world_size;
+
+static int __display_active = true;
 
 void __init_console_cursor()
 {
@@ -96,23 +98,29 @@ void __clear_console()
 	SetConsoleCursorPosition(__console_out, __home_coords);
 }
 
-void display_init(unsigned short worldSize)
+void display_init(int worldSize, int displayActive)
 {
 	// work out the screen size we need for the world size
 	GRID_ROW_OFFSET = 1;
 
+	if (displayActive == true)
+	{
+		STATS_COLUMN_OFFSET = worldSize + 2;
+	}
+	else
+	{
+		STATS_COLUMN_OFFSET = 1;
+	}
+
 	__pixel_updates = queue_new();
 	__init_console();
 	__clear_console();
+
+	__display_active = displayActive;
 }
 
 void display_reset() {
 	__clear_console();
-}
-
-void __null_pixel_out(PixelUpdate* pixel)
-{
-	free(pixel);
 }
 
 void __console_pixel_out(PixelUpdate* pixel)
@@ -146,6 +154,8 @@ void __console_pixel_out(PixelUpdate* pixel)
 
 void display_pixel(unsigned short x, unsigned short y, int newState)
 {
+	if (__display_active == false) return;
+
 	PixelUpdate* update = (PixelUpdate*)malloc(sizeof(PixelUpdate));
 
 	update->x = x;
@@ -155,16 +165,11 @@ void display_pixel(unsigned short x, unsigned short y, int newState)
 	queue_enqueue(__pixel_updates, update);
 }
 
-void display_flush_pixels(int toDisplay)
+void display_flush_pixels()
 {
-	if (toDisplay == true)
-	{
-		queue_dequeue_each(__pixel_updates, &__console_pixel_out);
-	}
-	else
-	{
-		queue_dequeue_each(__pixel_updates, &__null_pixel_out);
-	}
+	if (__display_active == false) return;
+	
+	queue_dequeue_each(__pixel_updates, &__console_pixel_out);
 }
 
 COORD __get_console_coord(int row, int col)

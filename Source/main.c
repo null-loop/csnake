@@ -12,8 +12,8 @@
 static Game* __game;
 static GlobalStats* __global;
 static int __display_count = 0;
-static const int DISPLAY_STATS_COUNT_MOD = 1000;
-static const int DISPLAY = true;
+static const int DISPLAY_STATS_COUNT_MOD = 1000000;
+static const int DISPLAY = false;
 
 int __birth_snakes(int snakes)
 {
@@ -60,6 +60,10 @@ LoopStepResult __game_turn(void* node)
 		{
 			display_top_scorer_traits(__game->top_score, __game->top_scoring_traits);
 		}
+		if (DISPLAY == false)
+		{
+			// TODO:force a redraw of the whole grid!
+		}
 	}
 
 	if (result.next_step == RemoveNode)
@@ -85,12 +89,13 @@ void __draw_h_obstruction(Grid* grid)
 
 int main(void)
 {
-	unsigned short maxFood = 1024;
+	unsigned short maxFood = 256;
+	//TODO: why can't we make this bigger?
 	unsigned short worldSize = 118;
 	unsigned short startSnakes = 4;
 
 	srand((unsigned int)time(0));
-	display_init(worldSize);
+	display_init(worldSize, DISPLAY);
 
 	__global = stats_global_new();
 
@@ -110,7 +115,7 @@ int main(void)
 		// setup starting snakes
 		__birth_snakes(startSnakes);
 
-		display_flush_pixels(DISPLAY);
+		display_flush_pixels();
 
 		// run the main loop
 		loop_run(__game->snakes, &__game_turn);
@@ -119,7 +124,7 @@ int main(void)
 		stats_game_over(__game->stats, __global);
 
 		// final tidy of output
-		display_flush_pixels(DISPLAY);
+		display_flush_pixels();
 		display_reset();
 		display_stats(__game->stats, __global);
 

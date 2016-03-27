@@ -52,7 +52,7 @@ struct ScoredMove {
 
 static int __score_move(Snake* snake, Game* game, struct Move move, int score)
 {
-	unsigned int moves = 0;
+	int moves = 0;
 	GridPos current;
 	GridPos* head = snake_get_head(snake);
 	current.x = head->x + move.dX;
@@ -60,25 +60,24 @@ static int __score_move(Snake* snake, Game* game, struct Move move, int score)
 
 	while (moves < snake->traits->look_ahead_distance)
 	{
-		int content = grid_get(game->grid, &current);
+		int content = grid_get(game->grid, current);
+		switch (content)
+		{
+			case Space:
+				break;
 
-		if (moves == 0 && (content == SnakeBody || content == SnakeHead || content == OffGrid || content == Obstruction))
-		{
-			score = -10;
-			return score;
-		}
-		else
-		{
-			if (content == SnakeBody || content == SnakeHead || content == OffGrid || content == Obstruction)
+			case Food:
 			{
-				int p = snake->traits->future_collision_penalty / (moves + 1);
-				score -= p;
-				return score;
+				score += snake->traits->food_score;
+				break;
 			}
-			else if (content == Food)
+
+			default:
 			{
-				int f = snake->traits->food_score;
-				score += f;
+				if (moves == 0)	return -10;
+
+				score -= snake->traits->future_collision_penalty / (moves + 1);
+				return score;
 			}
 		}
 

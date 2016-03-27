@@ -34,6 +34,10 @@
 *.pdb
 *.idb
 *.ilk
+**/Debug/*.*
+
+# Release files
+**/Release/*.*
 
 # Logging files
 *.log
@@ -42,3 +46,4 @@
 # SQL 'things'
 *.sdf
 *.opendb
+*.vspx

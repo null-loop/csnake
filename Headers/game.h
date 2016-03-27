@@ -14,10 +14,10 @@ struct Game
 	Grid* grid;
 	Loop* snakes;
 	GameStats* stats;
-	unsigned short max_food;
-	unsigned short world_size;
+	int max_food;
+	int world_size;
 
-	unsigned int top_score;
+	int top_score;
 	Snake* top_scoring_snake;
 	SnakeTraits* top_scoring_traits;
 	SnakeTraits* average_traits;

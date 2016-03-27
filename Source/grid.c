@@ -8,13 +8,13 @@ void grid_each(Grid* this, void(*e)(GridPos* p, GridContents c))
 	GridPos pos;
 	GridPos* apos = &pos;
 
-	for (unsigned int x = 0; x < this->size; x++)
+	for (int x = 0; x < this->size; x++)
 	{
-		for (unsigned int y = 0; y < this->size; y++)
+		for (int y = 0; y < this->size; y++)
 		{
 			pos.x = x;
 			pos.y = y;
-			e(apos, grid_get(this, apos));
+			e(apos, grid_get(this, pos));
 		}
 	}
 }
@@ -29,12 +29,12 @@ Grid* grid_new(unsigned short gridSize)
 	grid->cells = (GridContents**)malloc(sizeof(GridContents*)*gridSize);
 	
 	if (grid->cells == NULL) return NULL;
-	for (unsigned int i = 0; i < gridSize; i++)
+	for (int i = 0; i < gridSize; i++)
 	{
 		grid->cells[i] = (GridContents*)malloc(sizeof(GridContents)*gridSize);
 		if (grid->cells[i] == NULL) return NULL;
 
-		for (unsigned int j = 0; j < gridSize; j++)
+		for (int j = 0; j < gridSize; j++)
 		{
 			grid->cells[i][j] = Space;
 		}
@@ -45,7 +45,7 @@ Grid* grid_new(unsigned short gridSize)
 
 void grid_free(Grid* this)
 {
-	for (unsigned int i = 0; i < this->size; i++)
+	for (int i = 0; i < this->size; i++)
 	{
 		free(this->cells[i]);
 	}
@@ -54,14 +54,6 @@ void grid_free(Grid* this)
 	free(this);
 }
 
-GridContents grid_get(Grid* this, GridPos* pos)
-{
-	if (pos->x < 0 || pos->x >= (int)this->size || pos->y < 0 || pos->y >= (int)this->size)
-	{
-		return OffGrid;
-	}
-	return this->cells[pos->x][pos->y];
-}
 
 unsigned short __colour(GridContents content)
 {
@@ -90,7 +82,7 @@ GridPos* grid_find_random_free_pos(Grid* grid)
 
 	__get_random_grid_pos(grid, pos);
 
-	while (grid_get(grid, pos) != Space)
+	while (grid_get(grid, (*pos)) != Space)
 	{
 		__get_random_grid_pos(grid, pos);
 	}

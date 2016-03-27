@@ -5,29 +5,29 @@ typedef struct GameStats GameStats;
 typedef struct GlobalStats GlobalStats;
 
 struct SnakeStats {
-	unsigned int snakes_born;
-	unsigned int food_eaten;
-	unsigned int moves_made;
-	unsigned int score;
+	long snakes_born;
+	long food_eaten;
+	long moves_made;
+	long score;
 };
 
 struct GameStats
 {
-	unsigned int snakes_born;
-	unsigned int food_eaten;
-	unsigned int moves_made;
-	unsigned int score;
-	unsigned int snakes_died;
+	long snakes_born;
+	long food_eaten;
+	long moves_made;
+	long score;
+	long snakes_died;
 };
 
 struct GlobalStats {
-	unsigned long snakes_born;
-	unsigned long food_eaten;
-	unsigned long moves_made;
-	unsigned long score;
-	unsigned int snakes_died;
+	long snakes_born;
+	long food_eaten;
+	long moves_made;
+	long score;
+	long snakes_died;
 
-	unsigned int games_played;
+	long games_played;
 };
 
 

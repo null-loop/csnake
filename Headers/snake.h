@@ -15,38 +15,38 @@ struct Snake {
 	GridPos* bits;
 	int length;
 
-	unsigned short alive;
-	unsigned short weight;
-	unsigned int time_to_birth;
+	int alive;
+	int weight;
+	int time_to_birth;
 	GridPos* last_tail_pos;
 	GridPos* last_head_pos;
 };
 
 struct MoveResult
 {
-	unsigned short died;
-	unsigned short gave_birth;
-	unsigned short ate;
-	unsigned short grew;
+	int died;
+	int gave_birth;
+	int ate;
+	int grew;
 	Snake* child;
 };
 
 struct SnakeTraits {
-	unsigned int start_length;
-	unsigned int max_length;
-	unsigned int max_weight;
-	unsigned int look_ahead_distance;
-	unsigned int momentum_score;
-	unsigned int default_score;
-	unsigned int future_collision_penalty;
-	unsigned int food_score;
-	unsigned int food_weight;
-	unsigned int weight_per_growth;
-	unsigned int move_weight_cost;
-	unsigned int birth_weight_cost;
-	unsigned int child_birth_weight;
-	unsigned int time_to_birth;
-	unsigned int birth_weight_threshold;
+	int start_length;
+	int max_length;
+	int max_weight;
+	int look_ahead_distance;
+	int momentum_score;
+	int default_score;
+	int future_collision_penalty;
+	int food_score;
+	int food_weight;
+	int weight_per_growth;
+	int move_weight_cost;
+	int birth_weight_cost;
+	int child_birth_weight;
+	int time_to_birth;
+	int birth_weight_threshold;
 };
 
 GridPos* snake_get_head(Snake* snake);
@@ -60,4 +60,4 @@ SnakeTraits* snake_traits_default();
 void snakes_free(Loop* snakesLoop);
 void snake_free(Snake* snake);
 
-MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, short dX, short dY);
+MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, int dX, int dY);
