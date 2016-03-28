@@ -57,8 +57,9 @@ static int __score_move(Snake* snake, Game* game, struct Move move, int score)
 	GridPos* head = snake_get_head(snake);
 	current.x = head->x + move.dX;
 	current.y = head->y + move.dY;
+	int lookAhead = snake->traits->look_ahead_distance;
 
-	while (moves < snake->traits->look_ahead_distance)
+	while (moves < lookAhead)
 	{
 		int content = grid_get(game->grid, current);
 		switch (content)

@@ -83,6 +83,9 @@
     <Report>
       <Path>csnake-win32160327(3).vspx</Path>
     </Report>
+    <Report>
+      <Path>csnake-win32160328.vspx</Path>
+    </Report>
   </Reports>
   <Launches>
     <ProjBinary>

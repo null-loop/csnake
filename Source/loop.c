@@ -31,6 +31,11 @@ void __remove_node(Loop* loop, LoopNode* node)
 	}
 	loop->count--;
 
+	if (loop->count == 0)
+	{
+		loop->__start = NULL;
+	}
+
 	free(node);
 }
 
@@ -76,6 +81,9 @@ int loop_add(Loop* loop, void* node)
 {
 	LoopNode* lNode = (LoopNode*)malloc(sizeof(LoopNode));
 	lNode->node = node;
+
+	lNode->__next = NULL;
+	lNode->__prev = NULL;
 
 	if (loop->count == 0)
 	{

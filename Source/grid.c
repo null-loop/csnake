@@ -3,23 +3,23 @@
 #include "../Headers/common.h"
 #include <stdlib.h>
 
-void grid_each(Grid* this, void(*e)(GridPos* p, GridContents c))
+void grid_each(Grid* grid, void(*e)(GridPos* p, GridContents c))
 {
 	GridPos pos;
 	GridPos* apos = &pos;
 
-	for (int x = 0; x < this->size; x++)
+	for (int x = 0; x < grid->size; x++)
 	{
-		for (int y = 0; y < this->size; y++)
+		for (int y = 0; y < grid->size; y++)
 		{
 			pos.x = x;
 			pos.y = y;
-			e(apos, grid_get(this, pos));
+			e(apos, grid_get(grid, pos));
 		}
 	}
 }
 
-Grid* grid_new(unsigned short gridSize)
+Grid* grid_new(int gridSize)
 {
 	Grid* grid = (Grid*)malloc(sizeof(Grid));
 
@@ -43,15 +43,15 @@ Grid* grid_new(unsigned short gridSize)
 	return grid;
 }
 
-void grid_free(Grid* this)
+void grid_free(Grid* grid)
 {
-	for (int i = 0; i < this->size; i++)
+	for (int i = 0; i < grid->size; i++)
 	{
-		free(this->cells[i]);
+		free(grid->cells[i]);
 	}
 
-	free(this->cells);
-	free(this);
+	free(grid->cells);
+	free(grid);
 }
 
 
@@ -69,9 +69,9 @@ void __get_random_grid_pos(Grid* grid, GridPos* pos)
 	pos->y = y;
 }
 
-void grid_set(Grid* this, GridPos* pos, GridContents value)
+void grid_set(Grid* grid, GridPos* pos, GridContents value)
 {
-	this->cells[pos->x][pos->y] = value;
+	grid->cells[pos->x][pos->y] = value;
 
 	display_pixel(pos->x, pos->y, __colour(value));
 }
