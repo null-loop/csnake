@@ -1,3 +1,3 @@
 #pragma once
 
-int get_random_int(int maxExclusive);
+#define get_random_int(mE) (rand() % mE)

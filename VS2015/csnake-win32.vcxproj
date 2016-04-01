@@ -79,7 +79,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="../Source/common.c" />
     <ClCompile Include="../Source/display_windows_console.c" />
     <ClCompile Include="../Source/food.c" />
     <ClCompile Include="../Source/game.c" />
