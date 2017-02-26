@@ -12,8 +12,8 @@
 static Game* __game;
 static GlobalStats* __global;
 static int __display_count = 0;
-static const int DISPLAY_STATS_COUNT_MOD = 1000000;
-static const int DISPLAY = false;
+static const int DISPLAY_STATS_COUNT_MOD = 100000;
+static const int DISPLAY = true;
 
 int __birth_snakes(int snakes)
 {
@@ -92,7 +92,7 @@ int main(void)
 	unsigned short maxFood = 256;
 	//TODO: why can't we make this bigger?
 	unsigned short worldSize = 118;
-	unsigned short startSnakes = 4;
+	unsigned short startSnakes = 20;
 
 	srand((unsigned int)time(0));
 	display_init(worldSize, DISPLAY);

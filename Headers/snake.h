@@ -4,6 +4,9 @@
 #include "stats.h"
 #include "loop.h"
 
+#define snake_get_head(snake) &(snake->bits[0])
+#define snake_get_tail(snake) &(snake->bits[snake->length - 1])
+
 typedef struct Snake Snake;
 typedef struct SnakeTraits SnakeTraits;
 typedef struct MoveResult MoveResult;
@@ -48,9 +51,6 @@ struct SnakeTraits {
 	int time_to_birth;
 	int birth_weight_threshold;
 };
-
-GridPos* snake_get_head(Snake* snake);
-GridPos* snake_get_tail(Snake* snake);
 
 Snake* snake_birth_from_traits(Grid* grid, SnakeTraits* parentTraits, GameStats* stats);
 Snake* snake_birth_from_parent(Grid* grid, Snake* parent, GameStats* stats);

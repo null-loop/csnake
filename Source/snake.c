@@ -198,7 +198,7 @@ SnakeTraits* snake_traits_default()
 	__globalDefaultTraits->food_weight = 40;
 	__globalDefaultTraits->weight_per_growth = 40;
 	__globalDefaultTraits->move_weight_cost = 1;
-	__globalDefaultTraits->time_to_birth = 500;
+	__globalDefaultTraits->time_to_birth = 0;
 
 	__update_derived_traits(__globalDefaultTraits);
 
@@ -227,37 +227,24 @@ void snake_free(Snake* snake)
 	free(snake);
 }
 
-void __move_snake_bit(GridPos* c, GridPos* s)
-{
-	GridPos v = *c;
-
-	c->x = s->x;
-	c->y = s->y;
-
-	s->x = v.x;
-	s->y = v.y;
-}
-
 void __move_snake_bits(Snake* snake, int moveX, int moveY)
 {
 	GridPos p;
-	p.x = snake_get_head(snake)->x + moveX;
-	p.y = snake_get_head(snake)->y + moveY;
+	GridPos* head = snake_get_head(snake);
+	p.x = head->x + moveX;
+	p.y = head->y + moveY;
 
 	for (int i = 0; i < snake->length; i++)
 	{
-		__move_snake_bit(&(snake->bits[i]), &p);
+		GridPos* c = &(snake->bits[i]);
+		GridPos v = *c;
+
+		c->x = p.x;
+		c->y = p.y;
+
+		p.x = v.x;
+		p.y = v.y;
 	}
-}
-
-GridPos* snake_get_head(Snake* snake)
-{
-	return &(snake->bits[0]);
-}
-
-GridPos* snake_get_tail(Snake* snake)
-{
-	return &(snake->bits[snake->length - 1]);
 }
 
 MoveResult snake_perform_move(Snake* snake, Grid* grid, GameStats* stats, int dX, int dY)

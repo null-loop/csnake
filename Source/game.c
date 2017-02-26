@@ -52,90 +52,9 @@ struct ScoredMove {
 
 static int __score_move(Snake* snake, Game* game, struct Move move, int score)
 {
-	int moves = 0;
-	GridPos current;
-	GridPos* head = snake_get_head(snake);
-	current.x = head->x + move.dX;
-	current.y = head->y + move.dY;
-	int lookAhead = snake->traits->look_ahead_distance;
-
-	while (moves < lookAhead)
-	{
-		int content = grid_get(game->grid, current);
-		switch (content)
-		{
-			case Space:
-				break;
-
-			case Food:
-			{
-				score += snake->traits->food_score;
-				break;
-			}
-
-			default:
-			{
-				if (moves == 0)	return -10;
-
-				score -= snake->traits->future_collision_penalty / (moves + 1);
-				return score;
-			}
-		}
-
-		current.x = current.x + move.dX;
-		current.y = current.y + move.dY;
-
-		moves++;
-	}
+	
 
 	return score;
-}
-
-static struct Move __get_best_move(Snake* snake, Game* game)
-{
-	GridPos* head = snake_get_head(snake);
-	int lposX = head->x, lposY = head->y;
-	if (snake->last_head_pos->x != -1 && snake->last_head_pos->y != -1)
-	{
-		lposX = snake->last_head_pos->x;
-		lposY = snake->last_head_pos->y;
-	}
-	int dx = head->x - lposX;
-	int dy = head->y - lposY;
-	int momentum_score = snake->traits->momentum_score;
-	int default_score = snake->traits->default_score;
-
-	struct ScoredMove moves[4];
-	struct ScoredMove bestMove;
-
-	moves[0].move.dX = 1;
-	moves[0].move.dY = 0;
-	moves[0].score = __score_move(snake, game, moves[0].move, (dx == 1 && dy == 0) ? momentum_score : default_score);
-
-	moves[1].move.dX = 0;
-	moves[1].move.dY = 1;
-	moves[1].score = __score_move(snake, game, moves[1].move, (dx == 0 && dy == 1) ? momentum_score : default_score);
-
-	moves[2].move.dX = -1;
-	moves[2].move.dY = 0;
-	moves[2].score = __score_move(snake, game, moves[2].move, (dx == -1 && dy == 0) ? momentum_score : default_score);
-
-	moves[3].move.dX = 0;
-	moves[3].move.dY = -1;
-	moves[3].score = __score_move(snake, game, moves[3].move, (dx == 0 && dy == -1) ? momentum_score : default_score);
-
-	bestMove = moves[0];
-	if (moves[1].score > bestMove.score) bestMove = moves[1];
-	if (moves[2].score > bestMove.score) bestMove = moves[2];
-	if (moves[3].score > bestMove.score) bestMove = moves[3];
-
-	if (bestMove.score < 0)
-	{
-		bestMove.move.dX = 0;
-		bestMove.move.dY = 0;
-	}
-
-	return bestMove.move;
 }
 
 MoveResult __snake_turn(Snake* snake, Game* game)
@@ -148,15 +67,97 @@ MoveResult __snake_turn(Snake* snake, Game* game)
 	result.grew = false;
 	result.child = NULL;
 
-	struct Move move = __get_best_move(snake, game);
+	GridPos* head = snake_get_head(snake);
+	int lposX = head->x, lposY = head->y;
+	if (snake->last_head_pos->x != -1 && snake->last_head_pos->y != -1)
+	{
+		lposX = snake->last_head_pos->x;
+		lposY = snake->last_head_pos->y;
+	}
+	int dx = head->x - lposX;
+	int dy = head->y - lposY;
+	int momentum_score = snake->traits->momentum_score;
+	int default_score = snake->traits->default_score;
 
-	if (move.dX==0 && move.dY==0)
+	//TODO:Go back to array - for loop - inline __score_move
+
+	struct ScoredMove moves[4];
+	struct ScoredMove bestMove;
+	bestMove.score = -1000;
+
+	moves[0].move.dX = 1;
+	moves[0].move.dY = 0;
+
+	moves[1].move.dX = 0;
+	moves[1].move.dY = 1;
+
+	moves[2].move.dX = -1;
+	moves[2].move.dY = 0;
+
+	moves[3].move.dX = 0;
+	moves[3].move.dY = -1;
+
+	for (int i = 0; i != 4; i++)
+	{
+		struct Move move = moves[i].move;
+		int score = (move.dX == dx && move.dY == dy) ? momentum_score : default_score;
+		int moves = 0;
+		GridPos current;
+		GridPos* head = snake_get_head(snake);
+		current.x = head->x + move.dX;
+		current.y = head->y + move.dY;
+		int lookAhead = snake->traits->look_ahead_distance;
+
+		while (moves < lookAhead)
+		{
+			int content = grid_get(game->grid, current);
+			switch (content)
+			{
+				case Space:
+				{
+					break;
+				}
+
+				case Food:
+				{
+					score += snake->traits->food_score;
+					break;
+				}
+
+				default:
+				{
+					if (moves == 0) {
+						score = -10;
+						moves = lookAhead;
+					}
+					else {
+						score -= snake->traits->future_collision_penalty / (moves + 1);
+					}
+				
+					break;
+				}
+			}
+
+			current.x = current.x + move.dX;
+			current.y = current.y + move.dY;
+
+			moves++;
+		}
+
+		if (score > bestMove.score)
+		{
+			bestMove.move = move;
+			bestMove.score = score;
+		}
+	}
+
+	if (bestMove.score < 0 || bestMove.score == 0)
 	{
 		result.died = true;
 	}
 	else
 	{
-		result = snake_perform_move(snake, game->grid, game->stats, move.dX, move.dY);
+		result = snake_perform_move(snake, game->grid, game->stats, bestMove.move.dX, bestMove.move.dY);
 
 		if (result.ate)
 		{
